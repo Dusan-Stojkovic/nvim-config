@@ -1,1 +1,1 @@
-require("v2")
+require("config.lazy")
