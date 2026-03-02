@@ -5,15 +5,6 @@ require("mason").setup()
 -- Reserve a space in the gutter
 vim.opt.signcolumn = 'yes'
 
--- Add cmp_nvim_lsp capabilities settings to lspconfig
--- This should be executed before you configure any language server
-local lspconfig_defaults = require('lspconfig').util.default_config
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-  'force',
-  lspconfig_defaults.capabilities,
-  require('cmp_nvim_lsp').default_capabilities()
-)
-
 -- This is where you enable features that only work
 -- if there is a language server active in the file
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -56,7 +47,7 @@ cmp.setup({
 })
 
 -- lua_ls config
-require('lspconfig').lua_ls.setup({
+vim.lsp.config['lua_ls'] = {
     settings = {
     Lua = {
       runtime = {
@@ -81,14 +72,14 @@ require('lspconfig').lua_ls.setup({
       },
     },
   },
-})
+}
 
 -- C# config, works with Unity
 local pid = vim.fn.getpid()
 local omnisharp_bin =
 "C:\\Users\\dstojkovic\\AppData\\Local\\nvim-data\\mason\\packages\\omnisharp\\libexec\\OmniSharp.exe"
 
-require('lspconfig').omnisharp.setup({
+vim.lsp.config['omnisharp'] = {
     cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
     root_dir = function(file, _)
         if file:sub(- #".csx") == ".csx" then
@@ -100,7 +91,7 @@ require('lspconfig').omnisharp.setup({
     handlers = {
         ["textDocument/definition"] = require('omnisharp_extended').handler,
     },
-})
+}
 
 require("mason-lspconfig").setup {
   ensure_installed = { "omnisharp@v1.39.8" }
@@ -112,7 +103,7 @@ local home = vim.fn.getenv("HOME")
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = 'D:\\Projects\\Android\\' .. project_name
 
-require('lspconfig').jdtls.setup({
+vim.lsp.config['jdtls'] = {
     cmd = {
         "C:\\Program Files\\Java\\jdk-21\\bin\\java.exe",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -137,4 +128,4 @@ require('lspconfig').jdtls.setup({
     root_dir = function(fname)
         return require("lspconfig").util.root_pattern("pom.xml", "gradle.build", ".git")(fname) or vim.fn.getcwd()
     end,
-})
+}
