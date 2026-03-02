@@ -22,20 +22,35 @@ Here are the steps to configure neovim.
 
 ### 1. Clone the repository
 
-### 2. Configure packer
+```
+git clone https://github.com/Dusan-Stojkovic/nvim-config
+```
 
-Complete quickstart steps for packer:
-https://github.com/wbthomason/packer.nvim
+### 2. Configure lazy nvim
+
+Follow the lazy.nvim docs!
+https://www.lazyvim.org/installation
 
 ### 3. Download telescope.nvim dependencies
 
-These would be ripgrep and fd. Install them so that telescope can work properly.
+These would be ripgrep, fzf and fd. Install them so that telescope can work properly.
 
-### 4. Run PackerInstall to install plugins
+### 4. Run Lazy upadate to install plugins
 
-Open lua/v2/packer.lua with nvim lua/v2/packer.lua
-And type :PackerInstall in Normal Mode.
+```bash
+:Lazy update
+```
+will install all the plugins added in this nvim config
 
-### 5. Restart editor
+### 5. Install LSPs
+
+Using meson you should install LSPs. This can be done from nvim in normal mode:
+
+```
+:MasonInstall  clangd jdtls ltex_ls lua_ls omnisharp python-lsp-server rust-analyzer
+
+```
+
+### 6. Restart editor
 
 After the restart config features are ready to use.
